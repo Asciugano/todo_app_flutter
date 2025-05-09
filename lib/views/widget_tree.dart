@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app_flutter/data/notifiers.dart';
+import 'package:todo_app_flutter/views/pages/home_page.dart';
+import 'package:todo_app_flutter/views/pages/todo_page.dart';
 import 'package:todo_app_flutter/views/widgets/navbar_widget.dart';
+
+List<Widget> pages = [HomePage(), TodoPage()];
 
 class WidgetTree extends StatelessWidget {
   const WidgetTree({super.key});
@@ -7,9 +12,13 @@ class WidgetTree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Center(child: Text('WidgetTree'),),
+      appBar: AppBar(title: Text('Todo App'), actions: [
+        IconButton(onPressed: () {}, icon: Icon(Icons.add))
+      ],),
       bottomNavigationBar: Navbar(),
+      body: ValueListenableBuilder(valueListenable: currentPageNotifier, builder:(context, currentPage, child) {
+        return pages[currentPageNotifier.value];
+      },),
     );
   }
 }
