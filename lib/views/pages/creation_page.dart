@@ -30,7 +30,9 @@ class _CreationPageState extends State<CreationPage> {
               TextField(
                 controller: titleController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   hintText: 'Title',
                 ),
               ),
@@ -38,7 +40,9 @@ class _CreationPageState extends State<CreationPage> {
               TextField(
                 controller: descriptionController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   hintText: 'Description',
                 ),
               ),
@@ -140,8 +144,10 @@ class _CreationPageState extends State<CreationPage> {
     TodoItem newTodo = TodoItem(
       title: titleController.text,
       desctiption: descriptionController.text,
+      isCompleted: false,
       creationTime: DateTime.now(),
       priorityLevel: selectedPriority ?? PriorityLevel.medium,
+      scadenza: scadenza,
     );
     
     todoListNotifier.value.add(newTodo);
