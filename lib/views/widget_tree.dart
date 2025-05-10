@@ -13,7 +13,9 @@ class WidgetTree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Todo App'), actions: [
+      appBar: AppBar(
+        title: Text('Todo App'),
+        actions: [
           IconButton(
             onPressed:
                 () => Navigator.push(
@@ -21,12 +23,24 @@ class WidgetTree extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => CreationPage()),
                 ),
             icon: Icon(Icons.add),
-          )
-      ],),
+          ),
+        ],
+      ),
       bottomNavigationBar: Navbar(),
-      body: ValueListenableBuilder(valueListenable: currentPageNotifier, builder:(context, currentPage, child) {
-        return pages[currentPageNotifier.value];
-      },),
+      body: ValueListenableBuilder(
+        valueListenable: currentPageNotifier,
+        builder: (context, currentPage, child) {
+          return pages[currentPageNotifier.value];
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed:
+            () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CreationPage()),
+            ),
+      ),
     );
   }
 }

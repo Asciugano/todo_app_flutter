@@ -5,13 +5,13 @@ class TodoItem {
   final String desctiption;
   final DateTime creationTime;
   final DateTime? scadenza;
-  final PriorityLevel? priorityLevel;
+  final PriorityLevel priorityLevel;
   
   const TodoItem({
     required this.title,
     required this.desctiption,
     required this.creationTime,
+    required this.priorityLevel,
     this.scadenza,
-    this.priorityLevel,
   });
 }
