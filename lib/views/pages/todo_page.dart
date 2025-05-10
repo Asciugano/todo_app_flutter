@@ -15,7 +15,7 @@ class TodoPage extends StatelessWidget {
               todoListNotifier.value.length,
               (i) => Padding(
                 padding: const EdgeInsets.all(10),
-                child: Text('Title: ${todoListNotifier.value.elementAt(i)}'),
+                child: Text('Title: ${todoListNotifier.value.elementAt(i).title}'),
               ),
             ),
           ),
