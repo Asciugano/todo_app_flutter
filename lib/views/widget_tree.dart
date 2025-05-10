@@ -4,6 +4,7 @@ import 'package:todo_app_flutter/data/notifiers.dart';
 import 'package:todo_app_flutter/views/pages/creation_page.dart';
 import 'package:todo_app_flutter/views/pages/home_page.dart';
 import 'package:todo_app_flutter/views/pages/profile_page.dart';
+import 'package:todo_app_flutter/views/pages/setting_page.dart';
 import 'package:todo_app_flutter/views/pages/todo_page.dart';
 import 'package:todo_app_flutter/views/widgets/navbar_widget.dart';
 
@@ -22,9 +23,9 @@ class WidgetTree extends StatelessWidget {
             onPressed:
                 () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CreationPage()),
+                  MaterialPageRoute(builder: (context) => SettingPage()),
                 ),
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.settings),
           ),
         ],
       ),

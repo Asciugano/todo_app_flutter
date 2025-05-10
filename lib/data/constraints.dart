@@ -3,3 +3,7 @@ class KPage {
   static const int todoPageIndex = 1;
   static const int profilePageIndex = 2;
 }
+
+class KKeys {
+  static const String themeColorKey = 'themeColorKey';
+}
