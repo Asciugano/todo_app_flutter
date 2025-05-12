@@ -1,14 +1,14 @@
 import 'package:todo_app_flutter/data/classes/priority_level.dart';
 
 class TodoItem {
-  final String title;
-  final String desctiption;
-  final bool isCompleted;
+  String title;
+  String desctiption;
+  bool isCompleted;
   final DateTime creationTime;
-  final PriorityLevel priorityLevel;
-  final DateTime? scadenza;
+  PriorityLevel priorityLevel;
+  DateTime? scadenza;
 
-  const TodoItem({
+  TodoItem({
     required this.title,
     required this.desctiption,
     required this.isCompleted,
