@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app_flutter/data/classes/priority_level.dart';
 import 'package:todo_app_flutter/data/classes/todo_item.dart';
+import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
 
 class CreationPage extends StatefulWidget {
@@ -151,6 +155,17 @@ class _CreationPageState extends State<CreationPage> {
     );
     
     todoListNotifier.value.add(newTodo);
+    saveTodo();
+  }
+
+  Future saveTodo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> jsonTodos =
+        todoListNotifier.value
+            .map((todo) => jsonEncode(todo.toJson()))
+            .toList();
+    print(jsonTodos);
+    await prefs.setStringList(KKeys.jsonTodos, jsonTodos);
   }
 
 }

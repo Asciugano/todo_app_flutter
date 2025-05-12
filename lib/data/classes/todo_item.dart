@@ -23,7 +23,7 @@ class TodoItem {
       'desctiption': desctiption,
       'isCompleted': isCompleted,
       'creationTime': creationTime.toIso8601String(),
-      'priorityLevel': priorityLevel.label,
+      'priorityLevel': priorityLevel.level,
       'scadenza':
           scadenza != null ? scadenza!.toIso8601String() : 'nessuna scadenza',
     };
@@ -35,7 +35,7 @@ class TodoItem {
       desctiption: json['desctiption'],
       isCompleted: json['isCompleted'],
       creationTime: DateTime.parse(json['creationTime']),
-      priorityLevel: json['priorityLevel'],
+      priorityLevel: PriorityLevel.values[json['priorityLevel']],
       scadenza:
           json['scadenza'] == 'nessuna scadenza'
               ? null

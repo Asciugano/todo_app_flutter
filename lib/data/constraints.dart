@@ -8,6 +8,7 @@ class KPage {
 
 class KKeys {
   static const String themeColorKey = 'themeColorKey';
+  static const String jsonTodos = 'jsonTodos';
 }
 
 class KTextStyle {
