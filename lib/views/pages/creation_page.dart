@@ -154,7 +154,7 @@ class _CreationPageState extends State<CreationPage> {
       scadenza: scadenza,
     );
     
-    todoListNotifier.value.add(newTodo);
+    todoListNotifier.value = [...todoListNotifier.value, newTodo];
     saveTodo();
   }
 
