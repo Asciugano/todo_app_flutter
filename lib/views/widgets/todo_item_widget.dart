@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app_flutter/data/classes/todo_item.dart';
 import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
+import 'package:todo_app_flutter/views/pages/creation_page.dart';
 
 class TodoItemWidget extends StatefulWidget {
   const TodoItemWidget({super.key, required this.item});
@@ -31,7 +32,13 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
         ),
       ),
       child: GestureDetector(
-        onTap: () => print('cliccato ${widget.item.title}'),
+        onTap:
+            () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreationPage(item: widget.item),
+              ),
+            ),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 2),
           width: double.infinity,
@@ -93,7 +100,7 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
     todoListNotifier.value.remove(widget.item);
     saveTodo();
   }
-  
+
   Future saveTodo() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> jsonTodos =
@@ -103,5 +110,4 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
     print(jsonTodos);
     await prefs.setStringList(KKeys.jsonTodos, jsonTodos);
   }
-
 }

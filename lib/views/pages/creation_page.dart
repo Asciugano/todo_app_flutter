@@ -8,22 +8,34 @@ import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
 
 class CreationPage extends StatefulWidget {
-  const CreationPage({super.key});
+  const CreationPage({super.key, this.item});
+
+  final TodoItem? item;
 
   @override
   State<CreationPage> createState() => _CreationPageState();
 }
 
 class _CreationPageState extends State<CreationPage> {
-
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   DateTime? scadenza;
   PriorityLevel? selectedPriority;
   String? menuItem = 'P2';
 
+  void initComponets() {
+    if (widget.item != null) {
+      titleController.text = widget.item!.title;
+      descriptionController.text = widget.item!.desctiption;
+      scadenza = widget.item!.scadenza;
+      selectedPriority = widget.item!.priorityLevel;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    initComponets();
+
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -90,8 +102,8 @@ class _CreationPageState extends State<CreationPage> {
                   Expanded(
                     child: FilledButton(
                       onPressed: () {
-                        if(canCreateItem()) {
-                          createItem();
+                        if (canCreateItem()) {
+                          widget.item != null ? updateIem() : createItem();
                           Navigator.pop(context);
                         }
                       },
@@ -121,7 +133,7 @@ class _CreationPageState extends State<CreationPage> {
   }
 
   bool canCreateItem() {
-    if(titleController.text == '' || descriptionController.text == '') {
+    if (titleController.text == '' || descriptionController.text == '') {
       showDialog(
         context: context,
         builder:
@@ -143,7 +155,26 @@ class _CreationPageState extends State<CreationPage> {
     }
     return true;
   }
-  
+
+  void updateIem() {
+    if (widget.item != null) {
+      int i = todoListNotifier.value.indexOf(widget.item!);
+      final TodoItem changedTodo = TodoItem(
+        title: titleController.text,
+        desctiption: descriptionController.text,
+        isCompleted: widget.item!.isCompleted,
+        creationTime: widget.item!.creationTime,
+        priorityLevel: selectedPriority ?? PriorityLevel.medium,
+      );
+
+      final updatedList = [...todoListNotifier.value];
+      updatedList[i] = changedTodo;
+      todoListNotifier.value = updatedList;
+
+      saveTodo();
+    }
+  }
+
   void createItem() {
     TodoItem newTodo = TodoItem(
       title: titleController.text,
@@ -153,7 +184,7 @@ class _CreationPageState extends State<CreationPage> {
       priorityLevel: selectedPriority ?? PriorityLevel.medium,
       scadenza: scadenza,
     );
-    
+
     todoListNotifier.value = [...todoListNotifier.value, newTodo];
     saveTodo();
   }
@@ -167,5 +198,4 @@ class _CreationPageState extends State<CreationPage> {
     print(jsonTodos);
     await prefs.setStringList(KKeys.jsonTodos, jsonTodos);
   }
-
 }
