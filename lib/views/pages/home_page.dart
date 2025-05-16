@@ -7,7 +7,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Center(child: Text('HomePage')),
+      body: Center(child: Text('Lists Page')),
     );
   }
 }

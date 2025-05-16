@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app_flutter/views/pages/welcome_page.dart';
 import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
 import 'package:todo_app_flutter/views/pages/creation_page.dart';
 import 'package:todo_app_flutter/views/pages/home_page.dart';
-import 'package:todo_app_flutter/views/pages/profile_page.dart';
 import 'package:todo_app_flutter/views/pages/setting_page.dart';
 import 'package:todo_app_flutter/views/pages/todo_page.dart';
 import 'package:todo_app_flutter/views/widgets/navbar_widget.dart';
 
-List<Widget> pages = [HomePage(), TodoPage(), ProfilePage()];
+List<Widget> pages = [HomePage(), TodoPage()/* , ProfilePage() */];
 
 class WidgetTree extends StatelessWidget {
   const WidgetTree({super.key});
@@ -26,6 +26,17 @@ class WidgetTree extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => SettingPage()),
                 ),
             icon: Icon(Icons.settings),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => WelcomePage()),
+                (route) => false,
+              );
+              currentPageNotifier.value = 0;
+            },
+            icon: Icon(Icons.logout),
           ),
         ],
       ),

@@ -164,6 +164,7 @@ class _CreationPageState extends State<CreationPage> {
         desctiption: descriptionController.text,
         isCompleted: widget.item!.isCompleted,
         creationTime: widget.item!.creationTime,
+        scadenza: scadenza,
         priorityLevel: selectedPriority ?? PriorityLevel.medium,
       );
 
