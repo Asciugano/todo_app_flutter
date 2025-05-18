@@ -55,37 +55,43 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
                           widget.item.isCompleted = value!;
                         }),
                   ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          widget.item.title,
+                          style: KTextStyle.titleText(
+                            themeColorNotifier.value,
+                            isCompleted: widget.item.isCompleted,
+                          ),
+                        ),
+                        Text(
+                          widget.item.desctiption,
+                          style: KTextStyle.descriptionText(
+                            isCompleted: widget.item.isCompleted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(child: Container()),
                   Column(
                     children: [
-                      Text(
-                        widget.item.title,
-                        style: KTextStyle.titleText(
-                          themeColorNotifier.value,
-                          isCompleted: widget.item.isCompleted,
+                      if (widget.item.scadenza != null)
+                        Text(
+                          '${widget.item.scadenza!.day}/${widget.item.scadenza!.month}/${widget.item.scadenza!.year}',
+                          style: KTextStyle.descriptionText(
+                            isCompleted: widget.item.isCompleted,
+                          ),
                         ),
-                      ),
+                      SizedBox(height: 10),
                       Text(
-                        widget.item.desctiption,
+                        widget.item.priorityLevel.label,
                         style: KTextStyle.descriptionText(
                           isCompleted: widget.item.isCompleted,
                         ),
                       ),
                     ],
-                  ),
-                  Expanded(child: Container()),
-                  if (widget.item.scadenza != null)
-                    Text(
-                      '${widget.item.scadenza!.day}/${widget.item.scadenza!.month}/${widget.item.scadenza!.year}',
-                      style: KTextStyle.descriptionText(
-                        isCompleted: widget.item.isCompleted,
-                      ),
-                    ),
-                  SizedBox(width: 10),
-                  Text(
-                    widget.item.priorityLevel.label,
-                    style: KTextStyle.descriptionText(
-                      isCompleted: widget.item.isCompleted,
-                    ),
                   ),
                 ],
               ),

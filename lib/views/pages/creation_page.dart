@@ -7,6 +7,9 @@ import 'package:todo_app_flutter/data/classes/priority_level.dart';
 import 'package:todo_app_flutter/data/classes/todo_item.dart';
 import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
+import 'package:todo_app_flutter/main.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class CreationPage extends StatefulWidget {
   const CreationPage({super.key, this.item});
@@ -93,6 +96,11 @@ class _CreationPageState extends State<CreationPage> {
                     lastDate: DateTime(2100),
                     initialDate: DateTime.now(),
                   );
+                  if(scadenza != null) {
+                    setState(() {
+                      scadenza = DateTime(scadenza!.year, scadenza!.month, scadenza!.day, 23, 59);
+                    });
+                  }
                 },
                 child: Text('Scadenza'),
               ),
@@ -196,6 +204,7 @@ class _CreationPageState extends State<CreationPage> {
       updatedList[i] = changedTodo;
       todoListNotifier.value = updatedList;
 
+      scheduleTodoNotification(changedTodo);
       saveTodo();
     }
   }
@@ -212,6 +221,8 @@ class _CreationPageState extends State<CreationPage> {
     );
 
     todoListNotifier.value = [...todoListNotifier.value, newTodo];
+    scheduleTodoNotification(newTodo);
+    scheduleTodoNotification(newTodo, giorniInMeno: 1);
     saveTodo();
   }
 
@@ -223,5 +234,33 @@ class _CreationPageState extends State<CreationPage> {
             .toList();
     print(jsonTodos);
     await prefs.setStringList(KKeys.jsonTodos, jsonTodos);
+  }
+
+  Future scheduleTodoNotification(TodoItem item, { int giorniInMeno = 0 }) async {
+    if (item.scadenza != null) {
+      if (item.scadenza!.isBefore(DateTime.now())) {
+        return;
+      }
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        item.title.hashCode ^ item.scadenza.hashCode ^ giorniInMeno,
+        'In scadenza: ${item.title}',
+        '${item.title} sta per scadere(${item.scadenza})',
+        tz.TZDateTime.from(
+          item.scadenza!.subtract(Duration(days: giorniInMeno)),
+          tz.local,
+        ),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'todo_channe',
+            'Notifiche todo',
+            channelDescription: 'Notifiche per la scadenza dei Todo',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+          iOS: DarwinNotificationDetails(),
+        ),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      );
+    }
   }
 }

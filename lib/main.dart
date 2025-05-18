@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app_flutter/data/classes/list_todo.dart';
 import 'package:todo_app_flutter/data/classes/todo_item.dart';
@@ -8,8 +9,29 @@ import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
 import 'package:todo_app_flutter/views/pages/welcome_page.dart';
 import 'package:todo_app_flutter/views/widget_tree.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Europe/Rome'));
+  
+  const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+  const DarwinInitializationSettings iosInit = DarwinInitializationSettings();
+
+  const iniSetings = InitializationSettings(android: androidInit, iOS: iosInit);
+  
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin
+      >()
+      ?.requestPermissions(alert: true, badge: true, sound: true);
+  await flutterLocalNotificationsPlugin.initialize(iniSetings);
+
   runApp(const MyApp());
 }
 
