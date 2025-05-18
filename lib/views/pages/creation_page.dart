@@ -50,6 +50,7 @@ class _CreationPageState extends State<CreationPage> {
                 valueListenable: listTodoNotifier,
                 builder: (context, listTodo, child) {
                   return DropdownButton(
+                    value: selectedList,
                     items:
                         listTodo.map((list) {
                           return DropdownMenuItem(

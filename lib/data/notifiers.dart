@@ -6,3 +6,4 @@ ValueNotifier<int> currentPageNotifier = ValueNotifier(0);
 ValueNotifier<List<TodoItem>> todoListNotifier = ValueNotifier([]);
 ValueNotifier<List<ListTodo>> listTodoNotifier = ValueNotifier([]);
 ValueNotifier<Color> themeColorNotifier = ValueNotifier(Colors.transparent);
+ValueNotifier<int?> currentListIDNotifier = ValueNotifier(null);

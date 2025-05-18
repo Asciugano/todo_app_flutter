@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
 
 class Navbar extends StatelessWidget {
@@ -16,7 +17,12 @@ class Navbar extends StatelessWidget {
             // NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
           ],
           selectedIndex: currentPage,
-          onDestinationSelected: (value) => currentPageNotifier.value = value,
+          onDestinationSelected: (value) {
+            currentPageNotifier.value = value;
+            if (currentPageNotifier.value == KPage.todoPageIndex) {
+              currentListIDNotifier.value = null;
+            }
+          },
         );
       },
     );

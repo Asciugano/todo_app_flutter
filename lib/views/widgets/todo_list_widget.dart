@@ -31,7 +31,10 @@ class _TodoListWidgetState extends State<TodoListWidget> {
         ),
       ),
       child: GestureDetector(
-        onTap: () => currentPageNotifier.value = KPage.todoPageIndex,
+        onTap: () {
+          currentListIDNotifier.value = widget.listTodo.id;
+          currentPageNotifier.value = KPage.todoPageIndex;
+        },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 2),
           width: double.infinity,

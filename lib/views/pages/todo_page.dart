@@ -11,6 +11,8 @@ class TodoPage extends StatefulWidget {
 
 class _TodoPageState extends State<TodoPage> {
 
+  final int? listID = currentListIDNotifier.value;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,14 +20,21 @@ class _TodoPageState extends State<TodoPage> {
       body: ValueListenableBuilder(
         valueListenable: todoListNotifier,
         builder: (context, todoList, child) {
+          final filteredList =
+              listID != null
+                  ? todoList
+                      .where((todo) => todo.listID == listID)
+                      .toList()
+                  : todoList;
+
           return Padding(
             padding: EdgeInsets.all(10),
             child: SingleChildScrollView(
               child: AnimatedCrossFade(
                 firstChild: Column(
                   children: List.generate(
-                    todoList.length,
-                    (i) => TodoItemWidget(item: todoList[i]),
+                    filteredList.length,
+                    (i) => TodoItemWidget(item: filteredList[i]),
                   ),
                 ),
                 secondChild: Column(
@@ -35,7 +44,7 @@ class _TodoPageState extends State<TodoPage> {
                   ],
                 ),
                 crossFadeState:
-                    todoList.isEmpty
+                    filteredList.isEmpty
                         ? CrossFadeState.showSecond
                         : CrossFadeState.showFirst,
                 duration: Duration(milliseconds: 300),
