@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
 import 'package:todo_app_flutter/views/widgets/todo_item_widget.dart';
 
@@ -10,7 +11,6 @@ class TodoPage extends StatefulWidget {
 }
 
 class _TodoPageState extends State<TodoPage> {
-
   final int? listID = currentListIDNotifier.value;
 
   @override
@@ -22,9 +22,7 @@ class _TodoPageState extends State<TodoPage> {
         builder: (context, todoList, child) {
           final filteredList =
               listID != null
-                  ? todoList
-                      .where((todo) => todo.listID == listID)
-                      .toList()
+                  ? todoList.where((todo) => todo.listID == listID).toList()
                   : todoList;
 
           return Padding(
@@ -40,7 +38,10 @@ class _TodoPageState extends State<TodoPage> {
                 secondChild: Column(
                   children: [
                     Image.asset('assets/img/paperella_spaesata.png'),
-                    Text('Non c\'é nulla da fare'),
+                    Text(
+                      'Non c\'é nulla da fare',
+                      style: KTextStyle.titleText(themeColorNotifier.value),
+                    ),
                   ],
                 ),
                 crossFadeState:
