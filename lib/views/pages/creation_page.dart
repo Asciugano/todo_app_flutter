@@ -180,9 +180,10 @@ class _CreationPageState extends State<CreationPage> {
   void updateIem() {
     if (widget.item != null) {
       int i = todoListNotifier.value.indexOf(widget.item!);
+
       final TodoItem changedTodo = TodoItem(
         title: titleController.text,
-        listID: selectedList != null ? selectedList!.id : 1,
+        listID: selectedList != null ? selectedList!.id! : 1,
         desctiption: descriptionController.text,
         isCompleted: widget.item!.isCompleted,
         creationTime: widget.item!.creationTime,
@@ -201,7 +202,7 @@ class _CreationPageState extends State<CreationPage> {
   void createItem() {
     TodoItem newTodo = TodoItem(
       title: titleController.text,
-      listID: selectedList != null ? selectedList!.id : 1,
+      listID: selectedList != null ? selectedList!.id! : 1,
       desctiption: descriptionController.text,
       isCompleted: false,
       creationTime: DateTime.now(),

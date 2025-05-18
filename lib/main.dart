@@ -54,9 +54,6 @@ class _MyAppState extends State<MyApp> {
         listTodoNotifier.value
             .map((list) => jsonEncode(list.toJson()))
             .toList();
-    if(jsonListTodo.isEmpty) {
-      prefs.setInt(KKeys.listTodoCurrentId, 0);
-    }
     print(jsonListTodo);
     await prefs.setStringList(KKeys.jsonListTodo, jsonListTodo);
   }

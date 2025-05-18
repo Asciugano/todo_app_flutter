@@ -31,7 +31,7 @@ class _TodoListWidgetState extends State<TodoListWidget> {
         ),
       ),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () => currentPageNotifier.value = KPage.todoPageIndex,
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 2),
           width: double.infinity,

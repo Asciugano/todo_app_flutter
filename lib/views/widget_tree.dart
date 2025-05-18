@@ -124,7 +124,7 @@ class WidgetTree extends StatelessWidget {
                                           KKeys.jsonListTodo,
                                           jsonListTodo,
                                         );
-                                        Utils.setCurrentID(newList.id);
+                                        Utils.setCurrentID(newList.id!);
                                         Navigator.pop(context);
                                       },
                                       child: Text('Crea'),

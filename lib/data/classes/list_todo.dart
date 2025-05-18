@@ -1,5 +1,5 @@
 class ListTodo {
-  int id;
+  int? id;
   String title;
   
   ListTodo({
