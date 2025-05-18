@@ -9,6 +9,7 @@ class KPage {
 class KKeys {
   static const String themeColorKey = 'themeColorKey';
   static const String jsonTodos = 'jsonTodos';
+  static const String showWelcome = 'showWelcome';
 }
 
 class KTextStyle {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
 import 'package:todo_app_flutter/views/widget_tree.dart';
 
@@ -31,12 +33,15 @@ class WelcomePage extends StatelessWidget {
             Expanded(child: Container()),
             SafeArea(
               child: FilledButton(
-                onPressed:
-                    () => Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => WidgetTree()),
-                      (route) => false,
-                    ),
+                onPressed: () async {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => WidgetTree()),
+                    (route) => false,
+                  );
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setBool(KKeys.showWelcome, false);
+                },
                 style: FilledButton.styleFrom(
                   minimumSize: Size(double.infinity, 50),
                 ),

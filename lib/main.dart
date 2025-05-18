@@ -6,6 +6,7 @@ import 'package:todo_app_flutter/data/classes/todo_item.dart';
 import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
 import 'package:todo_app_flutter/views/pages/welcome_page.dart';
+import 'package:todo_app_flutter/views/widget_tree.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,13 +28,13 @@ class _MyAppState extends State<MyApp> {
       loadThemeColor();
     });
   }
-  
+
   @override
   void dispose() {
     saveTodo();
     super.dispose();
   }
-  
+
   Future saveTodo() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> jsonTodos =
@@ -67,6 +68,16 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  Future<Widget> showWlecome() async {
+    final prefs = await SharedPreferences.getInstance();
+    final showelcomePage = prefs.getBool(KKeys.showWelcome);
+    print(showelcomePage);
+    if (showelcomePage != null) {
+      return showelcomePage ? WelcomePage() : WidgetTree();
+    }
+    return WelcomePage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -87,7 +98,20 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           themeMode: ThemeMode.system,
-          home: WelcomePage(),
+          home: FutureBuilder<Widget>(
+            future: showWlecome(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                );
+              } else if (snapshot.hasError) {
+                return Scaffold(body: Center(child: Text('ERROR')));
+              } else {
+                return snapshot.data!;
+              }
+            },
+          ),
         );
       },
     );

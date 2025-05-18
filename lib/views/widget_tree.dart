@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app_flutter/views/pages/welcome_page.dart';
 import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
 import 'package:todo_app_flutter/views/pages/creation_page.dart';
-import 'package:todo_app_flutter/views/pages/home_page.dart';
+import 'package:todo_app_flutter/views/pages/list_page.dart';
 import 'package:todo_app_flutter/views/pages/setting_page.dart';
 import 'package:todo_app_flutter/views/pages/todo_page.dart';
 import 'package:todo_app_flutter/views/widgets/navbar_widget.dart';
@@ -29,13 +30,15 @@ class WidgetTree extends StatelessWidget {
             icon: Icon(Icons.settings),
           ),
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => WelcomePage()),
                 (route) => false,
               );
               currentPageNotifier.value = 0;
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setBool(KKeys.showWelcome, true);
             },
             icon: Icon(Icons.logout),
           ),
