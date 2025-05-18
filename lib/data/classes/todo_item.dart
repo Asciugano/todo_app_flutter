@@ -1,6 +1,7 @@
 import 'package:todo_app_flutter/data/classes/priority_level.dart';
 
 class TodoItem {
+  int listID;
   String title;
   String desctiption;
   bool isCompleted;
@@ -9,6 +10,7 @@ class TodoItem {
   DateTime? scadenza;
 
   TodoItem({
+    required this.listID,
     required this.title,
     required this.desctiption,
     required this.isCompleted,
@@ -19,6 +21,7 @@ class TodoItem {
 
   Map<String, dynamic> toJson() {
     return {
+      'listID': listID,
       'title': title,
       'desctiption': desctiption,
       'isCompleted': isCompleted,
@@ -32,6 +35,7 @@ class TodoItem {
   factory TodoItem.fromJson(Map<String, dynamic> json) {
     return TodoItem(
       title: json['title'],
+      listID: json['listID'],
       desctiption: json['desctiption'],
       isCompleted: json['isCompleted'],
       creationTime: DateTime.parse(json['creationTime']),

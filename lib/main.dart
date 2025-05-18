@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app_flutter/data/classes/list_todo.dart';
 import 'package:todo_app_flutter/data/classes/todo_item.dart';
 import 'package:todo_app_flutter/data/constraints.dart';
 import 'package:todo_app_flutter/data/notifiers.dart';
@@ -24,13 +25,15 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      loadTodo();
       loadThemeColor();
+      loadListTodo();
+      loadTodo();
     });
   }
 
   @override
   void dispose() {
+    saveListTodo();
     saveTodo();
     super.dispose();
   }
@@ -43,6 +46,19 @@ class _MyAppState extends State<MyApp> {
             .toList();
     print(jsonTodos);
     await prefs.setStringList(KKeys.jsonTodos, jsonTodos);
+  }
+  
+  Future saveListTodo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> jsonListTodo =
+        listTodoNotifier.value
+            .map((list) => jsonEncode(list.toJson()))
+            .toList();
+    if(jsonListTodo.isEmpty) {
+      prefs.setInt(KKeys.listTodoCurrentId, 0);
+    }
+    print(jsonListTodo);
+    await prefs.setStringList(KKeys.jsonListTodo, jsonListTodo);
   }
 
   Future loadThemeColor() async {
@@ -65,6 +81,17 @@ class _MyAppState extends State<MyApp> {
       todoListNotifier.value =
           jsonTodos.map((json) => TodoItem.fromJson(jsonDecode(json))).toList();
       print(todoListNotifier.value);
+    }
+  }
+  
+  Future loadListTodo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String>? jsonListTodo = await prefs.getStringList(KKeys.jsonListTodo);
+    print(jsonListTodo);
+
+    if(jsonListTodo != null) {
+      listTodoNotifier.value = jsonListTodo.map((json) => ListTodo.fromJson(jsonDecode(json))).toList();
+      print(listTodoNotifier.value);
     }
   }
 

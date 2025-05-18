@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app_flutter/data/classes/list_todo.dart';
 import 'package:todo_app_flutter/data/classes/priority_level.dart';
 import 'package:todo_app_flutter/data/classes/todo_item.dart';
 import 'package:todo_app_flutter/data/constraints.dart';
@@ -21,7 +22,9 @@ class _CreationPageState extends State<CreationPage> {
   TextEditingController descriptionController = TextEditingController();
   DateTime? scadenza;
   PriorityLevel? selectedPriority;
-  String? menuItem = 'P2';
+  String? priorityMenuItem = 'P2';
+  String? listMenuItem;
+  ListTodo? selectedList;
 
   void initComponets() {
     if (widget.item != null) {
@@ -43,6 +46,24 @@ class _CreationPageState extends State<CreationPage> {
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
+              ValueListenableBuilder(
+                valueListenable: listTodoNotifier,
+                builder: (context, listTodo, child) {
+                  return DropdownButton(
+                    items:
+                        listTodo.map((list) {
+                          return DropdownMenuItem(
+                            value: list,
+                            child: Text(list.title),
+                          );
+                        }).toList(),
+                    onChanged:
+                        (value) => setState(() {
+                          selectedList = value;
+                        }),
+                  );
+                },
+              ),
               TextField(
                 controller: titleController,
                 decoration: InputDecoration(
@@ -75,7 +96,7 @@ class _CreationPageState extends State<CreationPage> {
                 child: Text('Scadenza'),
               ),
               DropdownButton(
-                value: menuItem,
+                value: priorityMenuItem,
                 items: [
                   DropdownMenuItem(
                     value: 'P1',
@@ -92,7 +113,7 @@ class _CreationPageState extends State<CreationPage> {
                 ],
                 onChanged: (value) {
                   setState(() {
-                    menuItem = value;
+                    priorityMenuItem = value;
                   });
                 },
               ),
@@ -161,6 +182,7 @@ class _CreationPageState extends State<CreationPage> {
       int i = todoListNotifier.value.indexOf(widget.item!);
       final TodoItem changedTodo = TodoItem(
         title: titleController.text,
+        listID: selectedList != null ? selectedList!.id : 1,
         desctiption: descriptionController.text,
         isCompleted: widget.item!.isCompleted,
         creationTime: widget.item!.creationTime,
@@ -179,6 +201,7 @@ class _CreationPageState extends State<CreationPage> {
   void createItem() {
     TodoItem newTodo = TodoItem(
       title: titleController.text,
+      listID: selectedList != null ? selectedList!.id : 1,
       desctiption: descriptionController.text,
       isCompleted: false,
       creationTime: DateTime.now(),

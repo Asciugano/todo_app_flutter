@@ -10,6 +10,8 @@ class KKeys {
   static const String themeColorKey = 'themeColorKey';
   static const String jsonTodos = 'jsonTodos';
   static const String showWelcome = 'showWelcome';
+  static const String listTodoCurrentId = 'listTodoCurrentId';
+  static const String jsonListTodo = 'jsonListTodo';
 }
 
 class KTextStyle {
