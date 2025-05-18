@@ -10,9 +10,10 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text('Impostazioni')),
       body: Column(
         children: [
+          SizedBox(height: 15),
           Center(
             child: ThemeColorPicker(
               initialColor: Colors.yellow,

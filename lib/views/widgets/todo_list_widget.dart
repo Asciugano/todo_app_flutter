@@ -48,7 +48,6 @@ class _TodoListWidgetState extends State<TodoListWidget> {
                     style: KTextStyle.titleText(themeColorNotifier.value),
                   ),
                   Expanded(child: Container()),
-                  Text('id: ${widget.listTodo.id}'),
                 ],
               ),
             ),

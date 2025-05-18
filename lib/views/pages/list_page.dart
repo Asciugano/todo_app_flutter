@@ -18,28 +18,31 @@ class _HomePageState extends State<HomePage> {
       body: ValueListenableBuilder(
         valueListenable: listTodoNotifier,
         builder: (context, listTodo, child) {
-          return SingleChildScrollView(
-            child: AnimatedCrossFade(
-              firstChild: Column(
-                children: List.generate(
-                  listTodoNotifier.value.length,
-                  (i) => TodoListWidget(listTodo: listTodoNotifier.value[i]),
-                ),
-              ),
-              secondChild: Column(
-                children: [
-                  Image.asset('assets/img/paperella_spaesata.png'),
-                  Text(
-                    'Non ci sono liste',
-                    style: KTextStyle.titleText(themeColorNotifier.value),
+          return Padding(
+            padding: const EdgeInsets.all(10),
+            child: SingleChildScrollView(
+              child: AnimatedCrossFade(
+                firstChild: Column(
+                  children: List.generate(
+                    listTodoNotifier.value.length,
+                    (i) => TodoListWidget(listTodo: listTodoNotifier.value[i]),
                   ),
-                ],
+                ),
+                secondChild: Column(
+                  children: [
+                    Image.asset('assets/img/paperella_spaesata.png'),
+                    Text(
+                      'Non ci sono liste',
+                      style: KTextStyle.titleText(themeColorNotifier.value),
+                    ),
+                  ],
+                ),
+                crossFadeState:
+                    listTodoNotifier.value.isEmpty
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                duration: Duration(microseconds: 300),
               ),
-              crossFadeState:
-                  listTodoNotifier.value.isEmpty
-                      ? CrossFadeState.showSecond
-                      : CrossFadeState.showFirst,
-              duration: Duration(microseconds: 300),
             ),
           );
         },
